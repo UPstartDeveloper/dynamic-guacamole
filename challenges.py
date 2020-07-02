@@ -26,7 +26,20 @@ def lcs_dp(strA, strB):
 
     dp_table = [[0 for j in range(cols)] for i in range(rows)]
 
-    # TODO: Fill in the table using a nested for loop.
+    # Fill in the table using a nested for loop.
+    for i, array_row in enumerate(dp_table):  # each row is an array
+        for j, elem_col in enumerate(array_row):  # each col is an element in an array
+            # fill the first row and column all thr way through with zeros
+            if i == 0 or j == 0:
+                dp_table[i][j] = 0
+            # fill in each row, by comparing every letter of A, with each 
+            # subsequent letter of B
+            elif strA[i - 1] != strB[j - 1]:
+                # if not matching, look up and to the left, take the bigger
+                dp_table[i][j] = max(dp_table[i][j - 1], dp_table[i - 1][j])
+            elif strA[i - 1] == strB[j - 1]:
+                # if match, increment the value of the num in upper left
+                dp_table[i][j] = 1 + dp_table[i - 1][j - 1]
 
     return dp_table[rows-1][cols-1]
 
