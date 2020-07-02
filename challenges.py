@@ -42,35 +42,8 @@ def lcs_dp(strA, strB):
                 dp_table[i][j] = 1 + dp_table[i - 1][j - 1]
 
     return dp_table[rows-1][cols-1]
-
-def knapsack(items, capacity):
-    """Return the maximum value that can be stored in the knapsack using the
-    items given."""
-    """
-    base case: 
-    - if no items or no cap, return 0
-    - total weight in the knapsack is >= capacity:
-        return the value so far, (without the overflow)
-
-    recursive case: 
-    weight of single item is > capacity:
-        "skip" the item
-    weight in the total knapsack is < capacity:
-        so need to grab more items
-            For each item - grab the best value of permutations involving that item
-        pass over it
-    """
-    pass
-
-def knapsack_dp(items, capacity):
-    """Return the maximum value that can be stored in the knapsack using the
-    items given."""
-    rows = len(items) + 1
-    cols = capacity + 1
-    dp_table = [[0 for j in range(cols)] for i in range(rows)]
-
-    """
-    cap: 50
+"""
+cap: 50
     items1 = [
         # name, weight, value
         ('boots', 10, 60),   
@@ -78,16 +51,38 @@ def knapsack_dp(items, capacity):
         ('water', 30, 120),
         ('first aid', 15, 70)
     ]
-    Exp Out: 230
-    
-        0   1   2    3    4    5   6   7  8 ... 51
-    0
-    1
-    2
-    3
-    4
-    5
-    """
+
+    value_with ====> 60 ,  cap = 40    
+                =====> 100 ,  cap = 20
+                   ===> 120 , cap = -10 
+"""
+
+def knapsack(items, capacity):
+    """Return the maximum value that can be stored in the knapsack using the
+    items given."""
+    # Base Case: If items = [], or capacity = 0, return 0.
+    if len(items) == 0 or capacity <= 0:
+        return 0
+    # unpack the next item
+    item, weight, value = items[0]
+    # Define value_without := knapsack(items[1:], capacity)
+    value_without = knapsack(items[1:], capacity)
+    # if the weight exceeds cap, then default to value_without
+    if weight > capacity:
+        return value_without
+    # Define value_with 
+    value_with = value + knapsack(items[1:], capacity - weight)
+    # Return max of the two
+    return max(value_with, value_without)
+
+   
+def knapsack_dp(items, capacity):
+    """Return the maximum value that can be stored in the knapsack using the
+    items given."""
+    rows = len(items) + 1
+    cols = capacity + 1
+    dp_table = [[0 for j in range(cols)] for i in range(rows)]
+
 
     # TODO: Fill in the table using a nested for loop.
 
@@ -106,3 +101,16 @@ def edit_distance_dp(str1, str2):
     # TODO: Fill in the table using a nested for loop.
 
     return dp_table[rows-1][cols-1]
+
+
+if __name__ == "__main__":
+    cap = 50
+    items1 = [
+        # name, weight, value
+        ('boots', 10, 60),   
+        ('tent', 20, 100),
+        ('water', 30, 120),
+        ('first aid', 15, 70)
+    ]
+    assert knapsack(items1, cap) == 230
+    print(knapsack(items1, cap))
