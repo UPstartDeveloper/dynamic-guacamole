@@ -46,6 +46,20 @@ def lcs_dp(strA, strB):
 def knapsack(items, capacity):
     """Return the maximum value that can be stored in the knapsack using the
     items given."""
+    """
+    base case: 
+    - if no items or no cap, return 0
+    - total weight in the knapsack is >= capacity:
+        return the value so far, (without the overflow)
+
+    recursive case: 
+    weight of single item is > capacity:
+        "skip" the item
+    weight in the total knapsack is < capacity:
+        so need to grab more items
+            For each item - grab the best value of permutations involving that item
+        pass over it
+    """
     pass
 
 def knapsack_dp(items, capacity):
@@ -54,6 +68,26 @@ def knapsack_dp(items, capacity):
     rows = len(items) + 1
     cols = capacity + 1
     dp_table = [[0 for j in range(cols)] for i in range(rows)]
+
+    """
+    cap: 50
+    items1 = [
+        # name, weight, value
+        ('boots', 10, 60),   
+        ('tent', 20, 100),
+        ('water', 30, 120),
+        ('first aid', 15, 70)
+    ]
+    Exp Out: 230
+    
+        0   1   2    3    4    5   6   7  8 ... 51
+    0
+    1
+    2
+    3
+    4
+    5
+    """
 
     # TODO: Fill in the table using a nested for loop.
 
