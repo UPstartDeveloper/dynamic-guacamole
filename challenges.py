@@ -101,11 +101,41 @@ def edit_distance(str1, str2):
 
 def edit_distance_dp(str1, str2):
     """Compute the Edit Distance between 2 strings."""
-    rows = len(str1) + 1
-    cols = len(str2) + 1
+    rows = len(str2) + 1
+    cols = len(str1) + 1
     dp_table = [[0 for j in range(cols)] for i in range(rows)]
-
-    # TODO: Fill in the table using a nested for loop.
+    # fill in known subproblem #1 = first row
+    dp_table[0] = list(range(cols))
+    # fill in known subproblem #2 = first col
+    str2_index = 0
+    while str2_index < rows:
+        dp_table[str2_index][0] = str2_index
+        str2_index += 1
+    # Fill in rest of table using nested for loop
+    for str2_index in range(1, len(dp_table)):
+        row = dp_table[str2_index]
+        letter2 = str2[str2_index - 1]
+        for col_index in range(1, cols):
+            # initialize letters to compare
+            letter1 = str1[col_index - 1]
+            # compare letters and solve subproblem
+            is_matching = (letter1 == letter2)
+            subprob_without_these_letters = (
+                dp_table[str2_index - 1][col_index - 1]
+            )
+            # if match found, do nothing
+            if is_matching is True:
+                operation_value = subprob_without_these_letters
+            # otherwise add the least operation as an edit
+            else:
+                operation_value = (
+                    min(subprob_without_these_letters,
+                        dp_table[str2_index][col_index - 1],
+                        dp_table[str2_index - 1][col_index]
+                    ) + 1
+                )
+            # insert value into table
+            dp_table[str2_index][col_index] = operation_value
 
     return dp_table[rows-1][cols-1]
 
