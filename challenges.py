@@ -79,14 +79,21 @@ def knapsack(items, capacity):
 def knapsack_dp(items, capacity):
     """Return the maximum value that can be stored in the knapsack using the
     items given."""
-    rows = len(items) + 1
-    cols = capacity + 1
+    rows, cols = len(items) + 1, capacity + 1
     dp_table = [[0 for j in range(cols)] for i in range(rows)]
-
-
-    # TODO: Fill in the table using a nested for loop.
-
-    return dp_table[rows-1][cols-1]
+    # Fill in the table using a nested for loop.
+    for item_index in range(1, len(dp_table)):
+        row = dp_table[item_index]
+        name, weight, item_value = items[item_index - 1]
+        # iterate over a single row (all cols)
+        for cap_index, cap_value in enumerate(row):
+            # define knapsack with value, and without it
+            value_without = dp_table[item_index - 1][cap_index]
+            value_with = dp_table[item_index - 1][cap_index - weight] + item_value
+            # choose the max
+            dp_table[item_index][cap_index] = max(value_without, value_with)
+    # return max value in table
+    return dp_table[len(items) - 1][capacity]
     
 def edit_distance(str1, str2):
     """Compute the Edit Distance between 2 strings."""
