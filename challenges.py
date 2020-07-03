@@ -42,20 +42,7 @@ def lcs_dp(strA, strB):
                 dp_table[i][j] = 1 + dp_table[i - 1][j - 1]
 
     return dp_table[rows-1][cols-1]
-"""
-cap: 50
-    items1 = [
-        # name, weight, value
-        ('boots', 10, 60),   
-        ('tent', 20, 100),
-        ('water', 30, 120),
-        ('first aid', 15, 70)
-    ]
 
-    value_with ====> 60 ,  cap = 40    
-                =====> 100 ,  cap = 20
-                   ===> 120 , cap = -10 
-"""
 
 def knapsack(items, capacity):
     """Return the maximum value that can be stored in the knapsack using the
@@ -97,7 +84,26 @@ def knapsack_dp(items, capacity):
     
 def edit_distance(str1, str2):
     """Compute the Edit Distance between 2 strings."""
-    pass
+    # Base Case: either str is empty
+    if len(str1) == 0:
+        return len(str2)
+    elif len(str2) == 0:
+        return len(str1)
+    # Recursive Case 1: last letters match
+    letter1, letter2 = str1[-1], str2[-1]
+    if letter1 == letter2:
+        # edit dist same as without those letters
+        return edit_distance(str1[:-1], str2[:-1])
+    # Recursive Case 2: last letters don't match
+    elif letter1 != letter2:
+        # determine next subproblem to solve
+        next_subprob = min(
+            edit_distance(str1[:-1], str2[:-1]),
+            edit_distance(str1, str2[:-1]),
+            edit_distance(str1[:-1], str2)
+        )
+        return next_subprob + 1
+    
 
 def edit_distance_dp(str1, str2):
     """Compute the Edit Distance between 2 strings."""
@@ -136,7 +142,7 @@ def edit_distance_dp(str1, str2):
                 )
             # insert value into table
             dp_table[str2_index][col_index] = operation_value
-
+    # return solution for whole problem
     return dp_table[rows-1][cols-1]
 
 
