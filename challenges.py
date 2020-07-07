@@ -86,8 +86,12 @@ def knapsack_dp(items, capacity):
             # define knapsack with value, and without it
             value_without = dp_table[item_index - 1][cap_index]
             value_with = dp_table[item_index - 1][cap_index - weight] + item_value
-            # choose the max
-            dp_table[item_index][cap_index] = max(value_without, value_with)
+            # default to value without if weight of one item goes over
+            if weight > capacity:
+                dp_table[item_index][cap_index] = value_without
+            # otherwise, enter the maxiumum
+            else:
+                dp_table[item_index][cap_index] = max(value_without, value_with)
     # return max value in table
     return dp_table[len(items) - 1][capacity]
     
