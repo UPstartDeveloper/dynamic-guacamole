@@ -46,7 +46,9 @@ def lcs_dp(strA, strB):
 
 def knapsack(items, capacity):
     """Return the maximum value that can be stored in the knapsack using the
-    items given."""
+    items given.
+    
+    """
     # Base Case: If items = [], or capacity = 0, return 0.
     if len(items) == 0 or capacity <= 0:
         return 0
@@ -65,7 +67,14 @@ def knapsack(items, capacity):
    
 def knapsack_dp(items, capacity):
     """Return the maximum value that can be stored in the knapsack using the
-    items given."""
+    items given.
+    
+    Complexity Analysis:
+    The runtime of this method rises in proportion to both I and C, where
+    I = len(items) and C = capacity. Therefore it is expressed in Big O as
+    O(I * C).
+    
+    """
     rows, cols = len(items) + 1, capacity + 1
     dp_table = [[0 for j in range(cols)] for i in range(rows)]
     # Fill in the table using a nested for loop.
