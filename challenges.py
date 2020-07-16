@@ -109,11 +109,11 @@ def edit_distance(str1, str2):
         return edit_distance(str1[:-1], str2[:-1])
     # Recursive Case 2: last letters don't match
     elif letter1 != letter2:
-        # determine next subproblem to solve
+        # determine the least costly operating to use
         next_subprob = min(
-            edit_distance(str1[:-1], str2[:-1]),
-            edit_distance(str1, str2[:-1]),
-            edit_distance(str1[:-1], str2)
+            edit_distance(str1[:-1], str2[:-1]),  # replace
+            edit_distance(str1, str2[:-1]),  # insert
+            edit_distance(str1[:-1], str2)  # delete
         )
         return next_subprob + 1
     
